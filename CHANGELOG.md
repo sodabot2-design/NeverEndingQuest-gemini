@@ -5,6 +5,45 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2025-09-01
+
+### Gemini Model Migration & API Update
+
+#### Added
+- **Media Assets**: Comprehensive animation library
+  - 30+ compressed monster video animations
+  - NPC character animations
+  - Thumbnail generation for all creatures
+  - Class-based portrait defaults
+
+- **Token Usage Tracking**: Gemini API monitoring
+  - Real-time requests per minute (RPM) display (Gemini does not provide token usage per request)
+  - Total request consumption monitoring
+
+#### Changed
+- **Skill System Refactor**: Improved skill handling with backward compatibility
+  - Skills now stored as arrays for better AI interaction
+  - Automatic proficiency bonus calculations
+  - Support for both legacy and new formats
+
+- **Combat Flow**: Fixed turn fragmentation issues
+  - Improved prompt system for seamless multi-turn processing
+  - Better handling of NPC and monster turns
+  - Clearer player turn prompts
+
+#### Fixed
+- Video reset issues during 5-second refresh cycles
+- Vertical scrollbar problems in initiative tracker
+- Portrait upload and positioning system
+- Combat conversation compression for character formatting
+- Saving throws layout optimization
+
+#### Technical
+- Added comprehensive video compression utility
+- Improved .gitignore for proper media tracking
+- Gemini model integration with reasoning effort levels
+- Enhanced file organization and import patterns
+
 ## [0.2.0] - 2025-08-11
 
 ### Major UI and Media Update
@@ -112,99 +151,16 @@ This is the first public alpha release of NeverEndingQuest, an AI-powered Dungeo
 #### Known Limitations
 - Alpha release - expect bugs and rough edges
 - Limited to two modules currently (AI can generate more)
-- Requires OpenAI API key (Claude support coming)
+- Requires Gemini API key
 - Web interface required for optimal experience
 - Some combat edge cases may need refinement
 
 #### Requirements
 - Python 3.8+
-- OpenAI API key with GPT-4 access
+- Gemini API key with access to Gemini models
 - Modern web browser
 - ~100MB disk space
 
 #### Legal
 - Uses content from SRD 5.2.1 under Creative Commons Attribution 4.0
 - Fair Source License for codebase
-- No affiliation with Wizards of the Coast
-
-## [Unreleased] - 2025-01-20
-
-### Changed
-- **Major Codebase Reorganization** for better maintainability:
-  - All Python modules organized into logical directories:
-    - `core/` - Core game engine (ai, generators, managers, validation)
-    - `utils/` - Utility functions and helpers
-    - `updates/` - State update modules
-    - `web/` - Web interface
-  - Module builder moved to `core/generators/module_builder.py`
-  - Conversation history files moved to `modules/conversation_history/`
-  - Updated all import paths throughout the codebase (100% import success)
-  - Fixed 47+ import issues across 22 files
-  - Added comprehensive import testing tools
-
-### Added
-- AI Autonomous Module Creation system:
-  - AI DM can create new modules when current adventures are complete
-  - Narrative-driven module generation from rich text descriptions
-  - AI parsing of embedded parameters (areas, locations, level ranges)
-  - Fully agentic system - AI controls all aspects of module creation
-  - Conditional prompt injection only when module completion detected
-- New `createNewModule` action for AI DM
-- Enhanced `module_builder.py` with `ai_driven_module_creation` function
-- AI narrative parser for extracting module parameters from prose
-- Module creation prompt that guides contextual adventure generation
-- Interactive tabs in the web interface for viewing player data:
-  - Inventory tab showing equipment, weapons, and currency
-  - Character Stats tab displaying basic info, combat stats, and abilities
-  - NPCs tab listing party NPCs with their current status
-- Auto-refresh of tab data every 5 seconds
-- Socket.IO handlers for fetching character data from JSON files
-- Responsive styling for tabbed interface with dark theme
-
-### Fixed
-- Web interface output routing to properly separate game narration and debug information
-- Only "Dungeon Master:" messages appear in the game output panel
-- All other output (DEBUG, ERROR, system messages, etc.) now goes to the debug panel
-- Fixed issue where DM dialogue containing quotes or colons was incorrectly split between panels
-- Improved detection of player status lines vs. DM content to prevent incorrect panel routing
-
-## [0.1.0] - 2025-01-17
-
-### Added
-- New `generate_prerolls.py` module that pre-generates dice rolls for all combat actions, preventing the LLM from deciding roll outcomes
-- Explicit character type labeling in combat (PLAYER, NPC, ENEMY) for clearer differentiation
-- Import for `generate_prerolls` function in `combat_manager.py`
-- Preroll text generation before each combat round with:
-  - Attack rolls
-  - Damage rolls (using proper damage dice from creature stats)
-  - Saving throw rolls
-  - Ability check rolls
-  - Clear labeling of creature types and relationships
-- Web-based interface for the game with Flask and SocketIO:
-  - Separate panels for game output and debug information
-  - Real-time updates using WebSockets
-  - Automatic browser launch when starting the game
-  - Professional dark theme UI
-  - Input handling through web interface
-- `web_interface.py` - Flask server with SocketIO for real-time communication
-- `templates/game_interface.html` - Modern web UI with split panel design
-- `run_web.py` - Simple launcher script that starts the web interface
-
-### Changed
-- Combat AI no longer determines dice roll outcomes - all rolls are pre-generated
-- Enhanced creature type identification with explicit labels:
-  - PLAYER CHARACTER: Controlled by the human player
-  - NPC: Friendly non-player character allied with the player
-  - ENEMY: Hostile monster fighting against the player
-- Updated combat prompts to include pre-generated rolls for each round
-- Updated `requirements.txt` to include Flask and SocketIO dependencies
-
-### Improved
-- Fairness of combat by removing AI bias in dice rolling
-- Transparency of combat mechanics with explicit pre-rolled values
-- Clarity of character roles and allegiances in combat encounters
-- User experience with a modern web interface instead of terminal-only output
-
-### Fixed
-- Previously fixed XP calculation path issue for monster files
-- Previously fixed .gitignore to exclude runtime and debug files
